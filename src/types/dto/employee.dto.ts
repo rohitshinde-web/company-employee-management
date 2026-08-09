@@ -8,6 +8,7 @@ export interface CreateEmployeeDTO {
     passwordHash: string;
     departmentId: string;
     designationId: string;
+    designation: string;
     role: UserRole
     employmentStatus: EmployementStatus;
     gender: Gender;

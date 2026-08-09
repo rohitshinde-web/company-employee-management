@@ -20,7 +20,7 @@ export class EmployeeController {
 
     public getAll = asyncHandler(async(req:Request, res:Response) => {
         const query:EmployeeQueryDTO = req.query;
-        const result = await employeeService.getAllEmployees(query);
+        const result = await employeeService.getEmployees(query);
 
         return ApiResponse.success({
             res,
