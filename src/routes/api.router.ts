@@ -1,7 +1,6 @@
-import { Router } from "express";
-import healthRouter from "./health.router";
-import employeeRouter from "./employee.router";
-
+import { Router } from 'express';
+import healthRouter from './health.router';
+import employeeRouter from './employee.router';
 
 const apiRouter = Router();
 
