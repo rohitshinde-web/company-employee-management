@@ -8,6 +8,7 @@ dist/
 
 # Environment Variables
 .env
+.env.example
 .env.local
 .env.production
 
