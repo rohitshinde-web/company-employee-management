@@ -26,7 +26,7 @@ export class SalaryRepository extends BaseRepository<ISalary> {
     SELECT * FROM salaries WHERE employee_id = $1 ORDER BY effective_date DESC`;
 
     const result = await this.query(query, [employeeId]);
-    return result.rows.map(this.mapToEntity(row);)
+    return result.rows.map((row) =>this.mapToEntity(row))
   }
 
   public async createSalaryRecord(dto: CreateSalaryDTO): Promise<ISalary>{

@@ -45,8 +45,8 @@ export class DepartmentRepository extends BaseRepository<IDepartment>{
     }
 
     public async update(id: string, dto: UpdateDepartmentDTO): Promise<IDepartment | null>{
-        const fields = string[] = [];
-        const values = unknown[] = [];
+        const fields: string[] = [];
+        const values :unknown[] = [];
 
         if(dto.name){
             values.push(dto.name);
