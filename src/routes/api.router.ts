@@ -7,17 +7,20 @@ import leaveRouter from './leave.router';
 import attendanceRouter from './attendance.router';
 import salaryRouter from './salary.router';
 import roleRouter from './role.router';
+import authRouter from './auth.router';
+import { authenticate } from '../middlewares/authenticate.middleware';
 
 const apiRouter = Router();
 
 apiRouter.use('/health', healthRouter);
-apiRouter.use('/employees', employeeRouter);
-apiRouter.use('/departments', departmentRouter);
-apiRouter.use('/roles', roleRouter);
-apiRouter.use('/salaries', salaryRouter);
-apiRouter.use('/attendances', attendanceRouter);
-apiRouter.use('/leaves', leaveRouter);
-apiRouter.use('/projects', projectRouter);
+apiRouter.use('/auth',authRouter);
+apiRouter.use('/employees',authenticate, employeeRouter);
+apiRouter.use('/departments',authenticate, departmentRouter);
+apiRouter.use('/roles',authenticate, roleRouter);
+apiRouter.use('/salaries',authenticate, salaryRouter);
+apiRouter.use('/attendances',authenticate, attendanceRouter);
+apiRouter.use('/leaves',authenticate, leaveRouter);
+apiRouter.use('/projects',authenticate, projectRouter);
 
 
 export default apiRouter;

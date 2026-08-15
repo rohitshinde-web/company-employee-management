@@ -9,6 +9,7 @@ import {
 } from '../types/dto/employee.dto.js';
 import { AppError } from '../utils/AppError.js';
 import { pool } from '../db/index.js';
+import { BcryptUtil } from '../utils/bcrypt.js';
 
 export class EmployeeService {
   private employees: IEmployee[] = [];
@@ -28,7 +29,9 @@ export class EmployeeService {
       throw new AppError(`Invalid role specification: ${dto.role}`, HTTP_STATUS.BAD_REQUEST);
     }
     const roleId = roleRes.rows[0].id;
-    const createdEmployee = await employeeRepository.create(dto, roleId);
+    const hashedPassword = await BcryptUtil.hashPassword(dto.passwordHash);
+    const dtoWithHash = {...dto, passwordHash: hashedPassword};
+    const createdEmployee = await employeeRepository.create(dtoWithHash, roleId);
     return this.sanitizeEmployee(createdEmployee);
   }
 
