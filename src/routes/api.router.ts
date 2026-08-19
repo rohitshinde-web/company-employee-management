@@ -21,6 +21,6 @@ apiRouter.use('/salaries',authenticate, salaryRouter);
 apiRouter.use('/attendances',authenticate, attendanceRouter);
 apiRouter.use('/leaves',authenticate, leaveRouter);
 apiRouter.use('/projects',authenticate, projectRouter);
-
+apiRouter.use('/analytics', authenticate,)
 
 export default apiRouter;
