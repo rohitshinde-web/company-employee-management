@@ -13,6 +13,7 @@ export interface IEmployee {
   employmentStatus: EmployementStatus;
   gender: Gender;
   salary: number;
+  profileImageUrl: string | null;
   dateOfBirth: Date;
   dateOfJoining: Date;
   isActive: boolean;

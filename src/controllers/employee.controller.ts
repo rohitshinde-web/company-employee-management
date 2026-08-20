@@ -4,6 +4,10 @@ import { employeeService } from '../service/employee.service';
 import { CreateEmployeeDTO, EmployeeQueryDTO, UpdateEmployeeDTO } from '../types/dto/employee.dto';
 import { ApiResponse } from '../utils/api.response';
 import { asyncHandler } from '../utils/asyncHandler';
+import { IEmployeeResponse } from '../interfaces/employee.interface';
+import { AppError } from '../utils/AppError';
+import { FileSystemUtil } from '../utils/fileSystem.util';
+import { employeeRepository } from '../repositories/employee.respository';
 
 export class EmployeeController {
   public create = asyncHandler(async (req: Request, res: Response) => {
@@ -66,6 +70,19 @@ export class EmployeeController {
       message: 'Employee record deactivated successfully',
     });
   });
+
+  public uploadProfileImage = asyncHandler(async (req: Request, res: Response)=>{
+    const {id} = req.params;
+    const file = req.file;
+
+    const updatedEmployee = await employeeService.uploadProfileAvtar(id, file);
+    return ApiResponse.success({
+      res,
+      statusCode: HTTP_STATUS.OK,
+      message: "Employee profile picture uploaded successfully",
+      data: updatedEmployee
+    })
+  })
 }
 
 export const employeeController = new EmployeeController();

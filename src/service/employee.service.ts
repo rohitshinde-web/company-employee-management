@@ -10,6 +10,7 @@ import {
 import { AppError } from '../utils/AppError.js';
 import { pool } from '../db/index.js';
 import { BcryptUtil } from '../utils/bcrypt.js';
+import { FileSystemUtil } from '../utils/fileSystem.util.js';
 
 export class EmployeeService {
   private employees: IEmployee[] = [];
@@ -77,6 +78,23 @@ export class EmployeeService {
       throw new AppError(`Employee with Id ${id} not found`, HTTP_STATUS.NOT_FOUND);
     }
   }
+
+  public async uploadProfileAvtar(employeeId: string, file: Express.Multer.File): Promise<IEmployeeResponse>{
+if(!file){
+  throw new AppError('No file uploaded', HTTP_STATUS.BAD_REQUEST);
+}
+
+const employee = await employeeService.getEmployeeById(employeeId);
+if(!employee){
+  throw new AppError(`Employee with ID ${employeeId} not found`, HTTP_STATUS.NOT_FOUND);
+}
+if(employee.profileImageUrl){
+  await FileSystemUtil.deleteFileIfAtLocal(employee.profileImageUrl);
+}
+const publicImageUrl = `/uploads/profiles/${file.filename}`;
+const updated = await employeeRepository.updateProfileImage(employeeId, publicImageUrl);
+return this.sanitizeEmployee(updated);
+}
 }
 
 export const employeeService = new EmployeeService();

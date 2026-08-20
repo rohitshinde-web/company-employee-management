@@ -22,6 +22,7 @@ export class EmployeeRepository extends BaseRepository<IEmployee> {
       employmentStatus: row.employment_status as unknown as IEmployee['employmentStatus'],
       gender: row.gender as unknown as IEmployee['gender'],
       salary: parseFloat((row.base_salary as string) || '0'),
+      profileImageUrl: (row.profile_image_url as string) || null,
       dateOfBirth: new Date(row.date_of_birth as string),
       dateOfJoining: new Date(row.date_of_joining as string),
       isActive: row.is_active as boolean,
@@ -150,6 +151,18 @@ RETURNING id
     WHERE id = $1`;
     const result = await this.query(query, [id]);
     return (result.rowCount ?? 0) > 0;
+  }
+
+  public async updateProfileImage(id: string, imageUrl: string): Promise<IEmployee | null>{
+    const query = `
+    UPDATE employees
+    SET profile_image_url = $1, updated_at = CURRENT_TIMESTAMP
+    WHERE id = $2 AND is_active = TRUE
+    RETURNING id
+    `;
+
+    const result = await this.query(query, [imageUrl, id]);
+    return result.rows.length ? this.mapToEntity(result.rows[0]) : null;
   }
 }
 

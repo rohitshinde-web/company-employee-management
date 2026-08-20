@@ -4,6 +4,7 @@ import { createEmployeeValidator, employeeQueryValidator, updateEmployeeValidato
 import { validate } from '../middlewares/validate.middleware';
 import { authorize } from '../middlewares/authorize.middleware';
 import { UserRole } from '../constants/userRoles';
+import { uploadProfileImage } from '../middlewares/upload.middleware';
 
 const employeeRouter = Router();
 
@@ -12,5 +13,7 @@ employeeRouter.get('/',authorize(UserRole.ADMIN, UserRole.HR, UserRole.MANAGER),
 employeeRouter.get('/:id', authorize(UserRole.ADMIN, UserRole.HR),uuidParamValidator, validate, employeeController.getById);
 employeeRouter.patch('/:id', authorize(UserRole.ADMIN, UserRole.HR),updateEmployeeValidator,validate, employeeController.update);
 employeeRouter.delete('/:id',authorize(UserRole.ADMIN) ,uuidParamValidator, validate ,employeeController.delete);
+employeeRouter.patch('/:id/avtar', authorize(UserRole.ADMIN, UserRole.HR, UserRole.EMPLOYEE),uuidParamValidator,validate, uploadProfileImage.single('avtar'),
+employeeController.uploadProfileImage)
 
 export default employeeRouter;

@@ -8,6 +8,7 @@ import { config } from './config/environment.js';
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 import morgan from 'morgan';
 import { globalRateLimiter } from './middlewares/rateLimiter.middleware';
 const app: Application = express();
@@ -18,6 +19,8 @@ app.use(
         crossOriginEmbedderPolicy: config.nodeEnv === 'production'
     })
 );
+
+app.use('/uploads', express.static(path.resolve(process.cwd(), 'uploads')));
 
 app.use(
     cors({
